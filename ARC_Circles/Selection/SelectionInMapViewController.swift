@@ -9,8 +9,9 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Contacts
 
-class SelectionInMapViewController: UIViewController {
+class SelectionInMapViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate {
     
     let mapView = MKMapView()
     let textField = UITextField()
@@ -38,7 +39,9 @@ class SelectionInMapViewController: UIViewController {
         
         constraint.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[mapView]-0-|", options: [], metrics: nil, views: dictViews))
         
-        constraint.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[textField(40)]", options: [], metrics: nil, views: dictViews))
+        constraint.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "V:[textField(40)]", options: [], metrics: nil, views: dictViews))
+        
+        constraint.append(NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: backView.safeAreaLayoutGuide, attribute: .top, multiplier: 1, constant: 20))
         
         backView.addConstraints(constraint)
         
@@ -48,24 +51,107 @@ class SelectionInMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        textField.delegate = self
+        mapView.delegate = self
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D.init(latitude: 40.425, longitude: -3.7035), span: MKCoordinateSpan.init(latitudeDelta: 0.1, longitudeDelta: 0.1))
+        
+        mapView.setRegion(region, animated: false)
     }
-    */
+    
+    // MARK: MapView Delegates
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        
+        let centerCoord = mapView.centerCoordinate
+        
+        
+        let location = CLLocation(latitude: centerCoord.latitude, longitude: centerCoord.longitude)
+        
+        let geoCoder = CLGeocoder()
+        
+        geoCoder.reverseGeocodeLocation(location) { (placeMarkArray, error) in
+            
+            if let places = placeMarkArray {
+                
+                if let place = places.first {
+                
+                DispatchQueue.main.async
+                    {
+                        if let postalAdd = place.postalAddress
+                        {
+                        self.textField.text =  "\(postalAdd.street) ,  \(postalAdd.city)"
+                        }
+                        
+                }
+                }
+                
+                
+            }
+            
+        }
+        
+        
+    }
+    
+    // MARK: Text Field Delegate
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        mapView.isScrollEnabled = false
+        
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if textField.text != nil && !textField.text!.isEmpty
+        {
+        
+        mapView.isScrollEnabled = false
+        
+        let geocoder = CLGeocoder()
+        let postalAddress = CNMutablePostalAddress()
+        
+        postalAddress.street = textField.text!
+        // postalAddress.subAdministrativeArea
+        // postalAddress.subLocality
+        postalAddress.isoCountryCode = "ES"
+        
+        geocoder.geocodePostalAddress(postalAddress) { (placeMarkArray, error) in
+            
+            if placeMarkArray != nil && placeMarkArray!.count > 0
+            {
+                let placemark = placeMarkArray?.first
+                
+                DispatchQueue.main.async
+                    {
+                          let region = MKCoordinateRegion(center:placemark!.location!.coordinate, span: MKCoordinateSpan.init(latitudeDelta: 0.004, longitudeDelta: 0.004))
+                          self.mapView.setRegion(region, animated: true)
+                }
+                
+                
+            }
+            
+        }
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
+    }
+
+
 
 }

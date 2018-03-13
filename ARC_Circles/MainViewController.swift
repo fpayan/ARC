@@ -9,11 +9,20 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    
+  
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 
         // Do any additional setup after loading the view.
+        print(Bundle.main.infoDictionary!["test"] ?? "")
+        
+        print(Bundle(for: MainViewController.self).infoDictionary!["test"] ?? "")
+        
+        
     }
 
     @IBAction func presentForm(_ sender: UIButton) {

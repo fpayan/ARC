@@ -21,8 +21,8 @@ class SelectionTableViewController: UITableViewController {
     var listOfOptions:[String] = []
     var row = 0
     
-     var delegate:SelectionTableViewControllerDelegate?  // With circle
-   // weak var delegate:SelectionTableViewControllerDelegate?   // Without
+  //   var delegate:SelectionTableViewControllerDelegate?  // With circle
+    weak var delegate:SelectionTableViewControllerDelegate?   // Without
     
     var selectionClosure:((String)->Void)?
     

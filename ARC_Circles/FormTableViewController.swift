@@ -48,19 +48,21 @@ class FormTableViewController: UITableViewController, SelectionTableViewControll
         switch option {
         case 0:
    
-        selectionTVC.listOfOptions = ["España", "Portugal"]
-        selectionTVC.delegate = self
-        selectionTVC.row = indexPath.row
+            let selectInMAp = SelectionInMapViewController()
+            navigationController?.pushViewController(selectInMAp, animated: true)
+//        selectionTVC.delegate = self
+//        selectionTVC.row = indexPath.row
             
         default:
-            selectionTVC.selectionClosure = { // [unowned self]
+            selectionTVC.selectionClosure = {  [unowned self]
                 string in
                 let cell = self.tableView.cellForRow(at: indexPath) as! FormCell
                 cell.textField.text = string
+       
+
             }
-            
+            navigationController?.pushViewController(selectionTVC, animated: true)
         }
-        navigationController?.pushViewController(selectionTVC, animated: true)
 
         
     }

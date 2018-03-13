@@ -16,6 +16,7 @@
 		875C46A520279B6100E0250F /* FormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875C46A320279B6100E0250F /* FormCell.swift */; };
 		875C46A620279B6100E0250F /* FormCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 875C46A420279B6100E0250F /* FormCell.xib */; };
 		875C46A920279EC900E0250F /* SelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875C46A820279EC900E0250F /* SelectionTableViewController.swift */; };
+		87CB577E2058841B00581CFA /* SelectionInMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CB577D2058841B00581CFA /* SelectionInMapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		875C46A320279B6100E0250F /* FormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCell.swift; sourceTree = "<group>"; };
 		875C46A420279B6100E0250F /* FormCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormCell.xib; sourceTree = "<group>"; };
 		875C46A820279EC900E0250F /* SelectionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewController.swift; sourceTree = "<group>"; };
+		87CB577D2058841B00581CFA /* SelectionInMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionInMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				875C46A820279EC900E0250F /* SelectionTableViewController.swift */,
+				87CB577D2058841B00581CFA /* SelectionInMapViewController.swift */,
 			);
 			path = Selection;
 			sourceTree = "<group>";
@@ -158,6 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				875C468A2027999B00E0250F /* AppDelegate.swift in Sources */,
+				87CB577E2058841B00581CFA /* SelectionInMapViewController.swift in Sources */,
 				875C46A520279B6100E0250F /* FormCell.swift in Sources */,
 				875C46A220279B3500E0250F /* FormTableViewController.swift in Sources */,
 				875C469F20279A2700E0250F /* MainViewController.swift in Sources */,
